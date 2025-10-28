@@ -97,7 +97,51 @@
     });
 
     cw2.addEventListener("click", function () {
-        //TODO
+        answer.innerHTML = null;
+        const loader = document.createElement("p");
+        loader.innerHTML = "Loading...";
+        answer.appendChild(loader);
+
+        fetch("https://jsonplaceholder.typicode.com/posts")
+            .then((response) => response.json())
+            .then((array) => {
+                loader.remove();
+
+                answer.innerHTML = null;
+                const table = document.createElement("table");
+                table.className = "posts-table";
+
+                const thead = document.createElement("thead");
+                thead.innerHTML = `
+                    <tr>
+                        <th>ID</th>
+                        <th>Tytuł</th>
+                        <th>Treść</th>
+                    </tr>
+                `;
+                table.appendChild(thead);
+
+                const tbody = document.createElement("tbody");
+                array.forEach((item) => {
+                    const tr = document.createElement("tr");
+
+                    const tdId = document.createElement("td");
+                    tdId.textContent = item?.id || "";
+                    tr.appendChild(tdId);
+
+                    const tdTitle = document.createElement("td");
+                    tdTitle.textContent = item?.title || "";
+                    tr.appendChild(tdTitle);
+
+                    const tdBody = document.createElement("td");
+                    tdBody.textContent = item?.body || "";
+                    tr.appendChild(tdBody);
+
+                    tbody.appendChild(tr);
+                });
+                table.appendChild(tbody);
+                answer.appendChild(table);
+            });
     });
 
     cw3.addEventListener("click", function () {
