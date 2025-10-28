@@ -107,6 +107,7 @@
             .then((array) => {
                 loader.remove();
 
+                console.log(array);
                 answer.innerHTML = null;
                 const table = document.createElement("table");
                 table.className = "posts-table";
