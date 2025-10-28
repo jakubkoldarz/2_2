@@ -98,14 +98,28 @@
 
     cw2.addEventListener("click", function () {
         answer.innerHTML = null;
-        const loader = document.createElement("p");
-        loader.innerHTML = "Loading...";
-        answer.appendChild(loader);
+
+        const modal = document.createElement("div");
+        modal.className = "loading-modal";
+
+        const modalContent = document.createElement("div");
+        modalContent.className = "loading-modal-content";
+
+        const spinner = document.createElement("div");
+        spinner.className = "loading-spinner";
+
+        const loadingText = document.createElement("p");
+        loadingText.textContent = "Ładowanie danych...";
+
+        modalContent.appendChild(spinner);
+        modalContent.appendChild(loadingText);
+        modal.appendChild(modalContent);
+        document.body.appendChild(modal);
 
         fetch("https://jsonplaceholder.typicode.com/posts")
             .then((response) => response.json())
             .then((array) => {
-                loader.remove();
+                modal.remove();
 
                 console.log(array);
                 answer.innerHTML = null;
@@ -142,6 +156,10 @@
                 });
                 table.appendChild(tbody);
                 answer.appendChild(table);
+            })
+            .catch((error) => {
+                modal.remove();
+                answer.innerHTML = `<p style="color: red;">Błąd: ${error.message}</p>`;
             });
     });
 
